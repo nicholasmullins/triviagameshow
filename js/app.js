@@ -4,6 +4,7 @@
 
 $('.button').hide();
 $('#start').show();
+$('.instructions').show();
 
 
 
@@ -43,7 +44,7 @@ const myQuestions = [
     {question: `Once Upon a Time in Hollywood focuses on Hollywood in 1969. It is loosely based around what historical event?`, a: [`Altamont`, false], b: ['Woodstock', false], c: ['The RFK Assassination', false], d:['The Manson Murders', true]},
     {question: `What actor was the first choice for Bill in "Kill Bill"?`, a: [`Peter Fonda`, false], b: ['Warren Beatty', true], c: ['Dennis Hopper', false], d:['Jack Nicholson', false]},
     {question: `Which Christian Slater movie did Tarantino write?`, a: [`Pump Up The Volume`, false], b: ['True Romance', true], c: ['Heathers', false], d:['Gleaming the Cube', false]},
-    {question: `"Jackie Brown is the only movie that Quentin didn't write, who wrote it?`, a: [`Kurt Vonnegut`, false], b: ['James Patterson', true], c: ['Elmore Leonard', true], d:['Chuck Palahniuk', false]},
+    {question: `"Jackie Brown is the only movie that Quentin didn't write, who wrote it?`, a: [`Kurt Vonnegut`, false], b: ['James Patterson', false], c: ['Elmore Leonard', true], d:['Chuck Palahniuk', false]},
     {question: `Which actor was originally supposed to play Vincent Vega in "Pulp Fiction"?`, a: [`Harvey Keitel`, false], b: ['Michael Madsen', true], c: ['Tim Roth', false], d:['Steve Buscemi', false]},
     {question: `What SNL alum has a bit part as a British intelligence officer in "Inglourious Basterds?"`, a: [`Mike Myers`, true], b: ['Dennis Miller', false], c: ['Will Ferrell', false], d:['Kristin Wiig', false]},
     {question: `Which Steve McQueen film did Leonardo DiCaprio's character lose to Steve McQueen in "Once Upon a Time in Hollywood?"`, a: [`Papillon`, false], b: ['The Great Escape', true], c: ['Le Mans', false], d:['Bullitt', false]},
@@ -143,36 +144,64 @@ const loadQuestions = () => {
 const showResults = ($results, $correct) => {
      $('.button').hide();
      $('.results').show();
-     if ($correct == 'true') {
-        $('.results').css('background-color', 'green');
-        $('.results').html(`${$results} is correct!. Click for the Next Question!`);
-        playerSwitch = false;
-        console.log(playerSwitch);
-        if(randomPlayer == 1) {
-          player.scoreOne += 1;
-          $('#score1').html(player.scoreOne);
-        } else {
-          player.scoreTwo += 1;
-          $('#score2').html(player.scoreTwo);
-        };
+         if ($correct == 'true') {
+            $('.results').css('background-color', 'green');
+            $('.results').html(`${$results} is correct!. Click for the Next Question!`);
+            playerSwitch = false;
+            didSomeoneWin();
+            if(randomPlayer == 1) {
+              player.scoreOne += 1;
+              $('#score1').html(player.scoreOne);
+            } else {
+              player.scoreTwo += 1;
+              $('#score2').html(player.scoreTwo);
+            };
+         } else {
+            if (randomPlayer == 1) {
+                $(`.player${randomPlayer}`).css('background-color', '');
+                randomPlayer = 2;
+               $(`.player${randomPlayer}`).css('background-color', 'red');
+            } else if (randomPlayer == 2) {
+                $(`.player${randomPlayer}`).css('background-color', '');
+                randomPlayer = 1;
+                $(`.player${randomPlayer}`).css('background-color', 'red');
+            }
+            $('.results').css('background-color', 'red');
+            $('.results').html(`${$results} is incorrect. It is now PLAYER ${randomPlayer}'s TURN. Please CLICK to Continue!`)
+            clearInterval(myTimer);
+            playerSwitch = true;
+            console.log(playerSwitch);
 
-     } else {
-        if (randomPlayer == 1) {
-            $(`.player${randomPlayer}`).css('background-color', '');
-            randomPlayer = 2;
-           $(`.player${randomPlayer}`).css('background-color', 'red');
-        } else if (randomPlayer == 2) {
-            $(`.player${randomPlayer}`).css('background-color', '');
-            randomPlayer = 1;
-            $(`.player${randomPlayer}`).css('background-color', 'red');
-        }
-        $('.results').html(`${$results} is incorrect. It is now Player ${randomPlayer}'s Turn.`)
-        playerSwitch = true;
-        console.log(playerSwitch);
-     }
+    }
+          
+  }
 
+
+
+function didSomeoneWin () {
+    if (player.scoreOne == 10 || player.scoreTwo == 10) {
+        $('.results').html(`YOU WON! PLAYER ${randomPlayer}!!!`)
+        $('.button').hide();
+        $('#start').show();
+        let randomPlayer = Math.floor(Math.random() * 2) + 1;
+$('.score').attr('data-value', randomPlayer);
+
+let playerSwitch;
+
+let shuffledArray = [];
+  
+while(myQuestions.length !== 0) {
+    let randomIndex = Math.floor(Math.random() * myQuestions.length);
+    shuffledArray.push(myQuestions[randomIndex]);
+    myQuestions.splice(randomIndex, 1);
+ }
+
+let myTimer;
+let secondTimer;
+    } else {
+
+    }
 }
-
 
 $('.answer1').on('click', (e) => {
   
@@ -217,8 +246,9 @@ $('.results').on('click', () => {
 
 
 
-$('.question').on('click', () => {
+$('.start').one('click', () => {
     $('#start').hide();
+    $('.instructions').hide();
     $('#question').show(); 
     $('.button').show();
     $(`.player${randomPlayer}`).css('background-color', 'red');

@@ -10,6 +10,8 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="css/style.css">
+        <link href="https://fonts.googleapis.com/css?family=Playfair+Display&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Ultra&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Alfa+Slab+One&display=swap" rel="stylesheet">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     </head>
@@ -18,18 +20,21 @@
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-        <div class="title">TRIVIA</div>
+        <div class="title">TARAN-TRIVIA-O</div>
         <div class="timer">
             <div id="countdown">0</div>
         </div>        
         <div class="question-box" id="nested">
-            <button class="question" id="start">Start</button>
-            <p class="question" id="question">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officia veritatis cumque dolore deserunt. Et vel mollitia optio, quaerat consequuntur ratione.</p>
+            <button class="start" id="start">START</button>
+            <button class="question" id="question"></button>
             <button class="answer1 button" data-value="">Answer 1</button>
             <button class="answer2 button" data-value="">Answer 2</button>
             <button class="answer3 button" data-value="">Answer 3</button>
             <button class="answer4 button" data-value="">Answer 4</button>
             <button class="results"></button>
+            <div class="instructions">
+                <p>A player is selected randomly to go first. Each player has 30 seconds to answer as many questions correctly as possible. Each correct question is worth ONE POINT. Each player has 30 seconds or until they get an answer wrong. When this happens, the next player is prompted to start their round. First player to get 10 points wins!<p>
+            </div>        
         </div>     
         <div class="score" id="photo" data-value="">
             <div class="scores player1">Player 1</div>
