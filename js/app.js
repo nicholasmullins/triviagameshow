@@ -255,3 +255,9 @@ $('.start').one('click', () => {
     resetTimer();
     loadQuestions();
 }); 
+
+// $('.start').on('hover', () => {
+ 
+// //     ('.start').css('background-color', '#F58220');
+    
+// // })
